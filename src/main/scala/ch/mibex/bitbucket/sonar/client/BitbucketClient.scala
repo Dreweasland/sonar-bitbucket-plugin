@@ -40,7 +40,7 @@ case object InProgressBuildStatus extends BuildStatus {
 }
 case object SuccessfulBuildstatus extends BuildStatus {
   val name = "SUCCESSFUL"
-  val description = s"Sonar analysis successful :-)"
+  val description = s"Sonar analysis successful."
 }
 
 @ScannerSide

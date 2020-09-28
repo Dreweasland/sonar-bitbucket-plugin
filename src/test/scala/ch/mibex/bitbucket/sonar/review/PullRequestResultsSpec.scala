@@ -26,9 +26,9 @@ class PullRequestResultsSpec extends Specification with Mockito {
     "yield congrats and approval if no issues are found" in new SettingsContext {
       val results = new PullRequestReviewResults(pluginConfig)
       results.formatAsMarkdown() must_==
-        """**SonarQube Analysis** reported no issues. Take a chocolate :-)
+        s"""**SonarQube Analysis** reported no issues. Pop a wheelie!
           |
-          |Note that only issues with severity >= ![MAJOR](https://raw.githubusercontent.com/mibexsoftware/sonar-bitbucket-plugin/master/src/main/resources/images/severity/MAJOR.png) (major) are reported.""".stripMargin
+          |Note that only issues with severity >= major are reported.""".stripMargin
       results.countIssuesWithAboveMaxSeverity must_== 0
     }
 
@@ -56,14 +56,12 @@ class PullRequestResultsSpec extends Specification with Mockito {
       results.formatAsMarkdown() must beEqualTo(
         """**SonarQube Analysis** reported 3 issues:
           |
-          |* ![BLOCKER](https://raw.githubusercontent.com/mibexsoftware/sonar-bitbucket-plugin/master/src/main/resources/images/severity/BLOCKER.png) 1 blocker
-          |* ![MAJOR](https://raw.githubusercontent.com/mibexsoftware/sonar-bitbucket-plugin/master/src/main/resources/images/severity/MAJOR.png) 1 major
-          |* ![INFO](https://raw.githubusercontent.com/mibexsoftware/sonar-bitbucket-plugin/master/src/main/resources/images/severity/INFO.png) 1 info
+          |* 1 blocker
+          |* 1 major
+          |* 1 info
           |
           |
-          |Watch the comments in this pull request to review them. Note that only issues with severity >=
-          |![MAJOR](https://raw.githubusercontent.com/mibexsoftware/sonar-bitbucket-plugin/master/src/main/resources/images/severity/MAJOR.png) (major)
-          |are reported.""".stripMargin).ignoreSpace
+          |Watch the comments in this pull request to review them. Note that only issues with severity >= major are reported.""".stripMargin).ignoreSpace
       results.countIssuesWithAboveMaxSeverity must_== 1 // default is CRITICAL
     }
 

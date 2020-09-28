@@ -30,7 +30,7 @@ class PullRequestReviewResults(pluginConfiguration: SonarBBPluginConfig) {
 
     newIssuesBySeverity.values.toList match {
       case Nil =>
-        markdown.append("no issues. Take a chocolate :-)\n\n")
+        markdown.append(s"no issues. ${pluginConfiguration.commentSuccessMessage()}\n\n")
       case xs =>
         markdown.append(s"${xs.sum} ${StringUtils.pluralise("issue", xs.sum)}:\n\n")
         Severity.values().reverse foreach { s =>
@@ -44,12 +44,7 @@ class PullRequestReviewResults(pluginConfiguration: SonarBBPluginConfig) {
   }
 
   private def appendIssueSeverityRemark(markdown: StringBuilder) = {
-    val severityImgMarkdown = SonarUtils.toImageMarkdown(Severity.valueOf(pluginConfiguration.minSeverity()))
-    markdown.append(
-      s"""Note that only issues with severity >=
-          |$severityImgMarkdown (${pluginConfiguration.minSeverity().toLowerCase})
-          |are reported.""".stripMargin.replaceAll("\n", " ")
-    )
+    markdown.append(s"Note that only issues with severity >= ${pluginConfiguration.minSeverity().toLowerCase} are reported.")
   }
 
   def countIssuesWithAboveMaxSeverity: Int = {
@@ -64,7 +59,7 @@ class PullRequestReviewResults(pluginConfiguration: SonarBBPluginConfig) {
   private def printNewIssuesForMarkdown(sb: StringBuilder, severity: Severity) = {
     val issueCount = newIssuesBySeverity(severity)
     if (issueCount > 0) {
-      sb.append(s"* ${SonarUtils.toImageMarkdown(severity)} $issueCount ${severity.toString.toLowerCase}\n")
+      sb.append(s"* $issueCount ${severity.toString.toLowerCase}\n")
     }
   }
 
